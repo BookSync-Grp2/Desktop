@@ -133,7 +133,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>poo.booksync.booksync/poo.booksync.booksync.HelloApplication</mainClass>
+                            <mainClass>poo.booksync.booksync/poo.booksync.booksync.HomeApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
