@@ -13,4 +13,6 @@ module poo.booksync.booksync {
 
     opens poo.booksync.booksync to javafx.fxml;
     exports poo.booksync.booksync;
+    exports poo.booksync.booksync.controller;
+    opens poo.booksync.booksync.controller to javafx.fxml;
 }
