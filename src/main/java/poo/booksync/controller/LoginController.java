@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import poo.booksync.validators.EmailValidator;
+import poo.booksync.validators.FieldValidator;
+import poo.booksync.validators.PasswordValidator;
 
 public class LoginController {
     @FXML
@@ -13,18 +16,12 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private Button loginButton;
-
-    @FXML
-    private void initialize() {
-        System.out.println("Initialisation du contrôleur de login");
-    }
+    private void initialize() {}
 
     @FXML
     private void handleLogin() {
         String email = this.emailField.getText();
         String password = this.passwordField.getText();
-        System.out.println("Email saisi : " + email);
-        System.out.println("Mot de passe saisi : " + password);
+        //TODO: Implémenter la logique de connexion avec l'API
     }
 }
