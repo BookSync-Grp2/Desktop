@@ -11,8 +11,8 @@ module poo.booksync.booksync {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens poo.booksync.booksync to javafx.fxml;
-    exports poo.booksync.booksync;
-    exports poo.booksync.booksync.controller;
-    opens poo.booksync.booksync.controller to javafx.fxml;
+    opens poo.booksync to javafx.fxml;
+    exports poo.booksync;
+    exports poo.booksync.controller;
+    opens poo.booksync.controller to javafx.fxml;
 }

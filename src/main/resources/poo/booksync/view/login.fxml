@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.LoginController">
 
     <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -22,24 +22,21 @@
 
         <VBox alignment="CENTER" VBox.vgrow="ALWAYS" maxWidth="300">
             <VBox alignment="TOP_CENTER" prefWidth="518.0" spacing="20" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 5;">
-                <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Inscription" />
-                <VBox spacing="5">
-                    <Label text="Prénom" />
-                    <TextField fx:id="firstName" promptText="Entrez votre prénom" />
-                </VBox>
-                <VBox spacing="5">
-                    <Label text="Nom" />
-                    <TextField fx:id="lastName" promptText="Entrez votre nom" />
-                </VBox>
+
+                <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Connexion" />
+
                 <VBox spacing="5">
                     <Label text="Email" />
-                    <TextField fx:id="registerEmail" promptText="Entrez votre email" />
+                    <TextField fx:id="emailField" promptText="Entrez votre email" />
                 </VBox>
+
                 <VBox spacing="5">
                     <Label text="Mot de passe" />
-                    <PasswordField fx:id="registerPassword" promptText="Entrez votre mot de passe" />
+                    <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" />
                 </VBox>
-                <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="S'inscrire" />
+
+                <Button onAction="#handleLogin" maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Se connecter" fx:id="loginButton"/>
+
             </VBox>
         </VBox>
     </VBox>
