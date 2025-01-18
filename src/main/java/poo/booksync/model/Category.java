@@ -15,4 +15,57 @@ public class Category {
         this.title = title;
         this.description = description;
     }
+
+        public static int getCount(int categoryId) {
+            int nb=0;
+            for (Category c : categoryList) {
+                if (c.getCategoryId() == categoryId) {
+                    nb++;
+                }
+            }
+            return 0;
+        }
+
+        public static boolean initializeCategory() {
+
+        //A IMPLEMENTER
+            return true;
+        }
+
+        //GETTERS / SETTERS
+
+        public static ArrayList<Category> getCategoryList() {
+            return categoryList;
+        }
+        public static void setCategoryList(ArrayList<Category> list) {
+            categoryList = list;
+        }
+
+        public int getCategoryId() {
+            return categoryId;
+        }
+        public void setCategoryId(int categoryId) {
+            this.categoryId = categoryId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+        public void setTitle(String title) { this.title = title; }
+
+        public String getDescription() {
+            return description;
+        }
+        public void setDescription(String description) { this.description = description; }
+
+        @Override
+        public String toString() {
+            return "Category{" +
+                    "categoryId=" + categoryId +
+                    ", title='" + title + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
+    }
+
 }
