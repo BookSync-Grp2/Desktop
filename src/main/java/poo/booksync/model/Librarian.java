@@ -31,29 +31,11 @@ public class Librarian extends User {
         return false;
     }
 
-    public boolean initializeUserList() {
+    public static boolean initializeUserList() {
         // On vide la liste avant de la recharger
         User.getUserList().clear();
 
-        // Ajouts d’utilisateurs (test)
-        //Remplacer par co avec la BDD qd ce sera possible
-        User.getUserList().add(new Librarian(
-                1, "Alice", "Martin", "alice.martin@biblio.com",
-                new Date(), true, RoleType.LIBRARIAN
-        ));
-        User.getUserList().add(new Librarian(
-                2, "Bob", "Dupond", "bob.dupond@biblio.com",
-                new Date(), true, RoleType.LIBRARIAN
-        ));
-        User.getUserList().add(new Client(
-                3, "Claire", "Durand", "claire.durand@example.com",
-                new Date(), false, RoleType.CLIENT
-        ));
-        User.getUserList().add(new Client(
-                4, "David", "Robert", "david.robert@example.com",
-                new Date(), false, RoleType.CLIENT
-        ));
-
+        //A IMPLEMENTER
         return true;
     }
 
@@ -64,18 +46,9 @@ public class Librarian extends User {
     }
 
     //Créer un USER manuellement
-    public boolean createUser(String firstName, String lastName, String email, RoleType role) {
-        //On prend la position de la liste pr nouvelle ID (A garder ?)
-        int newUserId = User.getUserList().size() + 1;
-
-        User newUser;
-        if (role == RoleType.CLIENT) {
-            newUser = new Client(newUserId, firstName, lastName, email, role);
-        } else {
-            newUser = new Librarian(newUserId, firstName, lastName, email, role);
-        }
-
-        //Envoie de nouvel utilisateur à la BDD
+    public boolean createUser(String firstName, String lastName, String email, String password, RoleType role) {
+        //Création d'un nouveau user
+        User.register(firstName, lastName, email, password, role);
 
         //Refresh de la liste des USER
         this.initializeUserList();

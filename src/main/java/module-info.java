@@ -10,6 +10,7 @@ module poo.booksync.booksync {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.net.http;
 
     opens poo.booksync to javafx.fxml;
     exports poo.booksync;
