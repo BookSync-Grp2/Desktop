@@ -9,11 +9,11 @@ public class Book {
     private String title;
     private String author;
     private String ISBN;
-    private Date publishedYear;
+    private int publishedYear;
     private boolean isAvailable;
 
     //Constructeur pour instancier un nouveau Book
-    public Book(int bookId, String title, String author, String ISBN, Date publishedYear){
+    public Book(int bookId, String title, String author, String ISBN, int publishedYear){
         this.bookId =  bookId;
         this.title = title;
         this.author = author;
@@ -23,7 +23,7 @@ public class Book {
     }
 
     //Constructeur pour charger la BDD
-    public Book(int bookId, String title, String author, String ISBN, Date publishedYear, boolean isAvailable){
+    public Book(int bookId, String title, String author, String ISBN, int publishedYear, boolean isAvailable){
         this.bookId =  bookId;
         this.title = title;
         this.author = author;
@@ -103,10 +103,10 @@ public class Book {
     }
     public void setISBN(String ISBN) { this.ISBN = ISBN; }
 
-    public Date getPublishedYear() {
+    public int getPublishedYear() {
         return publishedYear;
     }
-    public void setPublishedYear(Date publishedYear) { this.publishedYear = publishedYear; }
+    public void setPublishedYear(int publishedYear) { this.publishedYear = publishedYear; }
 
     public boolean isAvailable() {
         return isAvailable;

@@ -1,4 +1,7 @@
 package poo.booksync.model;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Array;
@@ -48,11 +51,65 @@ public abstract class User {
 
     public User(){}
 
-    //Setter pr l'User courant
-    public static void setCurrentUser(User user) {
+
+    public static void setCurrentUser() {
+        try {
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/user/me"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + getAuthToken())
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode userNode = mapper.readTree(response.body());
+
+                // Si l’API renvoie un seul objet JSON, on ne fait pas de boucle.
+                int userId = userNode.get("id").asInt();
+                String firstName = userNode.get("firstName").asText();
+                String lastName = userNode.get("lastName").asText();
+                String email = userNode.get("email").asText();
+                String roleString = userNode.get("role").asText();
+                boolean validated = userNode.get("validated").asBoolean();
+
+                // DateJoined : on peut parser en java.util.Date
+                String dateJoinedStr = userNode.get("dateJoined").asText();
+                Date dateJoined = null;
+                try {
+                    dateJoined = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").parse(dateJoinedStr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Conversion en RoleType
+                RoleType roleType;
+                try {
+                    roleType = RoleType.valueOf(roleString);
+                } catch (IllegalArgumentException e) {
+                    // Si le rôle n'existe pas dans l'enum, on met USER par défaut
+                    roleType = RoleType.USER;
+                }
+
+                // Instanciation selon role
+                User user;
+                if ("USER".equalsIgnoreCase(roleString)) {
+                    user = new Client(userId, firstName, lastName, email, dateJoined, validated, roleType);
+                } else {
+                    user = new Librarian(userId, firstName, lastName, email, dateJoined, validated, roleType);
+                }
+
+                currentUser = user;
 
 
-
+            } else {
+                System.err.println("Erreur API : " + response.statusCode() + " - " + response.body());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     //Mise à jour de la liste
@@ -154,7 +211,7 @@ public abstract class User {
                 Librarian.initializeUserList();
 
                 //Set currentUser
-                //setCurrentUser();
+                setCurrentUser();
 
                 return true;  // Connexion OK
             } else {
