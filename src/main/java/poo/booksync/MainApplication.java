@@ -1,11 +1,12 @@
 package poo.booksync;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -14,12 +15,8 @@ import java.util.Objects;
 
 public class MainApplication extends Application {
 
-    private static Stage primaryStage;  // Stockage du stage global
-
     @Override
     public void start(Stage stage) throws IOException {
-        // Stockage de la référence du stage principal
-        primaryStage = stage;
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -32,18 +29,16 @@ public class MainApplication extends Application {
     }
 
     @FXML
-    public static void redirectTo(String view) {
+    public static void redirectTo(String view, ActionEvent event) throws IOException {
         try {
-            // Charge le fichier FXML
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("view/" + view + ".fxml"));
             Parent root = fxmlLoader.load();
-            Scene newScene = new Scene(root);
-            if (primaryStage != null) {
-                double currentWidth = primaryStage.getWidth();
-                double currentHeight = primaryStage.getHeight();
-                primaryStage.setScene(newScene);
-                primaryStage.setWidth(currentWidth);
-                primaryStage.setHeight(currentHeight);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            if (stage != null) {
+                double currentWidth = stage.getWidth();
+                double currentHeight = stage.getHeight();
+                stage.setScene(new Scene(root, currentWidth, currentHeight));
             }
 
         } catch (IOException e) {

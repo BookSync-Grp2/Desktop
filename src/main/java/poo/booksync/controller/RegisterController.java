@@ -1,11 +1,16 @@
 package poo.booksync.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import poo.booksync.MainApplication;
+import poo.booksync.model.RoleType;
+import poo.booksync.model.User;
 import poo.booksync.validators.EmailValidator;
 import poo.booksync.validators.FieldValidator;
 import poo.booksync.validators.PasswordValidator;
+
+import java.io.IOException;
 
 public class RegisterController {
 
@@ -47,11 +52,11 @@ public class RegisterController {
         String lastName = lastNameField.getText();
         String email = this.emailField.getText();
         String password = this.passwordField.getText();
-        System.out.println("Valeurs saisie dans le formulaire d'enregistrement"+" "+firstName + " " + lastName + " " + email + " " + password);
+        User.register(firstName,lastName,email,password, RoleType.ADMIN);
     }
 
     @FXML
-    private void redirectToLogin(){
-        MainApplication.redirectTo("login");
+    private void redirectToLogin(ActionEvent event) throws IOException {
+        MainApplication.redirectTo("home",event);
     }
 }
