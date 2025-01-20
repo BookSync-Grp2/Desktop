@@ -1,4 +1,6 @@
 package poo.booksync.model;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -48,7 +50,30 @@ public abstract class User {
 
     //Setter pr l'User courant
     public static void setCurrentUser(User user) {
-        currentUser = user;
+
+
+
+    }
+
+    //Mise à jour de la liste
+    public static void setUserList(ArrayList<User> list){
+        for(User u : list){
+            userList.add(u);
+        }
+    }
+
+    public static void clearUserList(){
+        userList.clear();
+    }
+
+    public static String getAuthToken(){
+        String ligne = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader("auth_token.txt"))) {
+            ligne = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ligne;
     }
 
     //Pour le logout
@@ -128,7 +153,8 @@ public abstract class User {
                 //Initialisation de la liste d'USER :
                 Librarian.initializeUserList();
 
-                //+ SET currentUSER
+                //Set currentUser
+                //setCurrentUser();
 
                 return true;  // Connexion OK
             } else {

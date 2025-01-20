@@ -65,11 +65,6 @@ public class Book {
         return 0;
     }
 
-    public static ArrayList<String> getCategories(int id) {
-        //A corriger selon besoins
-        return null;
-    }
-
 
     public static boolean initializeBookList() {
         bookList.clear();
