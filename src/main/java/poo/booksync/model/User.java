@@ -221,7 +221,7 @@ public abstract class User {
 
 
 
-                return true;  // Connexion OK
+                return true;
             } else {
                 System.err.println("Échec de connexion. Code HTTP = " + response.statusCode());
                 return false;

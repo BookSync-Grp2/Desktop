@@ -57,6 +57,6 @@ public class RegisterController {
 
     @FXML
     private void redirectToLogin(ActionEvent event) throws IOException {
-        MainApplication.redirectTo("home",event);
+        MainApplication.redirectTo("login",event);
     }
 }
