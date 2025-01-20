@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.MainController">
+    <BorderPane prefHeight="521.0" prefWidth="763.0" style="-fx-background-color: #f5f5f5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <left>
+            <fx:include source="sidebar.fxml" />
+        </left>
+        <center>
+            <TabPane fx:id="tabPane" BorderPane.alignment="CENTER">
+                <Tab fx:id="bookTab" text="Liste des livres" closable="false" />
+                <Tab fx:id="createBookTab" text="Créer un livre" closable="false" />
+                <Tab fx:id="loansTab" text="Liste des prêts" closable="false" />
+                <Tab fx:id="createLoansTab" text="Créer un prêts" closable="false" />
+                <Tab fx:id="clientsTab" text="Liste des clients" closable="false" />
+            </TabPane>
+        </center>
+    </BorderPane>
+</AnchorPane>

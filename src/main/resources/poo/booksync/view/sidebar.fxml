@@ -19,7 +19,7 @@
         <padding>
             <Insets top="20" />
         </padding>
-        <Button fx:id="homeButton" onAction="#handleButtonAction" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="26.0" prefWidth="235.0" style="-fx-padding: 10;" text="Accueil">
+        <Button onAction="#handleButtonAction" fx:id="homeButton" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="26.0" prefWidth="235.0" style="-fx-padding: 10;" text="Accueil">
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../img/home-icon.png" />
