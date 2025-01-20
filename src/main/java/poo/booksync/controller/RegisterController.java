@@ -2,6 +2,10 @@ package poo.booksync.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import poo.booksync.MainApplication;
+import poo.booksync.validators.EmailValidator;
+import poo.booksync.validators.FieldValidator;
+import poo.booksync.validators.PasswordValidator;
 
 public class RegisterController {
 
@@ -19,7 +23,22 @@ public class RegisterController {
 
     @FXML
     private void initialize() {
-        System.out.println("Initialisation du contrôleur d'enregistrement");
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+            FieldValidator.validate(
+                    emailField,
+                    new EmailValidator(),
+                    newValue
+            );
+        });
+
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            FieldValidator.validate(
+                    passwordField,
+                    new PasswordValidator(),
+                    newValue
+            );
+        });
+
     }
 
     @FXML
@@ -29,5 +48,10 @@ public class RegisterController {
         String email = this.emailField.getText();
         String password = this.passwordField.getText();
         System.out.println("Valeurs saisie dans le formulaire d'enregistrement"+" "+firstName + " " + lastName + " " + email + " " + password);
+    }
+
+    @FXML
+    private void redirectToLogin(){
+        MainApplication.redirectTo("login");
     }
 }

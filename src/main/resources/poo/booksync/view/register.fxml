@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.RegisterController">
+<?import javafx.scene.control.Hyperlink?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.RegisterController">
 
     <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -38,6 +39,7 @@
                 <VBox spacing="5">
                     <Label text="Mot de passe" />
                     <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" />
+                    <Hyperlink prefHeight="23.0" prefWidth="248.0" style="-fx-background-insets: none; -fx-padding: 0;" fx:id="registerHyperLink" onAction="#redirectToLogin"  text="Vous possédez déjà un compte?" />
                 </VBox>
                 <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="S'inscrire" onAction="#handleRegister" />
             </VBox>
