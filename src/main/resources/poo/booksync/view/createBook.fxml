@@ -23,12 +23,10 @@
                 <TextField fx:id="authorField" promptText="Entrez le nom de l'autheur" />
             </VBox>
             <VBox layoutX="40.0" layoutY="154.0" spacing="2">
-                <children>
-                    <Label text="Date de publication" />
-                    <DatePicker prefHeight="26.0" prefWidth="249.0" promptText="Sélectionner la date" />
-                </children>
+                <Label text="Date de publication"/>
+                <DatePicker fx:id="publishDatePicker" prefHeight="26.0" prefWidth="249.0" promptText="Sélectionner la date"/>
             </VBox>
-            <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
+            <Button maxWidth="Infinity" onAction="#handleCreateBook" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
         </VBox>
     </VBox>
 </VBox>

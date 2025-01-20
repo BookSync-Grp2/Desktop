@@ -13,8 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Loans {
-    private static ArrayList<Loans> loansList = new ArrayList<Loans>();
+public class Loan {
+    private static ArrayList<Loan> loansList = new ArrayList<Loan>();
     private int loanId;
     private int userId;
     private int bookId;
@@ -24,7 +24,7 @@ public class Loans {
     private boolean isReturned;
 
     //Constructeur pr instancier un nouvel emprunt
-    public Loans(int loanId, int userId, int bookId, Date loanStartDate, Date loanEndDate){
+    public Loan(int loanId, int userId, int bookId, Date loanStartDate, Date loanEndDate){
         this.loanId = loanId;
         this.userId = userId;
         this.bookId = bookId;
@@ -35,7 +35,7 @@ public class Loans {
     }
 
     //Constructeur pr charger la BDD
-    public Loans(int loanId, int userId, int bookId, Date loanStartDate, Date loanEndDate, boolean isRetrieved, boolean isReturned){
+    public Loan(int loanId, int userId, int bookId, Date loanStartDate, Date loanEndDate, boolean isRetrieved, boolean isReturned){
         this.loanId = loanId;
         this.userId = userId;
         this.bookId = bookId;
@@ -56,7 +56,7 @@ public class Loans {
                 idUser,
                 idBook
         );
-
+        System.out.println(jsonBody);
         try {
             // Création du client et de la requête POST
             HttpClient client = HttpClient.newBuilder().build();
@@ -71,7 +71,7 @@ public class Loans {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 //Refresh de la liste
-                Loans.initializeLoanList();
+                Loan.initializeLoanList();
                 return 1;
             } else {
                 System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
@@ -85,9 +85,9 @@ public class Loans {
     }
 
     //Emprunt pr un USER
-    public static ArrayList<Loans> getUserLoans(int idUser) {
-        ArrayList<Loans> userLoans = new ArrayList<>();
-        for (Loans l : loansList) {
+    public static ArrayList<Loan> getUserLoans(int idUser) {
+        ArrayList<Loan> userLoans = new ArrayList<>();
+        for (Loan l : loansList) {
             if (l.getUserId() == idUser) {
                 userLoans.add(l);
             }
@@ -112,7 +112,7 @@ public class Loans {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 //Refresh de la liste
-                Loans.initializeLoanList();
+                Loan.initializeLoanList();
             } else {
                 System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
                 System.err.println("Corps de la réponse : " + response.body());
@@ -141,7 +141,7 @@ public class Loans {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 //Refresh de la liste
-                Loans.initializeLoanList();
+                Loan.initializeLoanList();
             } else {
                 System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
                 System.err.println("Corps de la réponse : " + response.body());
@@ -201,7 +201,7 @@ public class Loans {
                         }
 
                         // Instanciation du prêt (Loans)
-                        Loans loan = new Loans(
+                        Loan loan = new Loan(
                                 id,
                                 userId,
                                 bookId,
@@ -229,10 +229,10 @@ public class Loans {
 
     //GETTERS / SETTERS
 
-    public static ArrayList<Loans> getLoanList() {
+    public static ArrayList<Loan> getLoanList() {
         return loansList;
     }
-    public static void setLoanList(ArrayList<Loans> list) {
+    public static void setLoanList(ArrayList<Loan> list) {
         loansList = list;
     }
 

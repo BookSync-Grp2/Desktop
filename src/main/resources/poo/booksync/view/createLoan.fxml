@@ -26,7 +26,7 @@
                 <Label text="Date de fin" />
                 <DatePicker fx:id="endDatePicker" promptText="Sélectionner la date" />
             </VBox>
-            <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
+            <Button maxWidth="Infinity" onAction="#handleCreateLoan" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
         </VBox>
     </VBox>
 </VBox>

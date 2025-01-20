@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -214,7 +213,7 @@ public abstract class User {
                 Book.initializeBookList();
 
                 //Liste de Loans
-                Loans.initializeLoanList();
+                Loan.initializeLoanList();
 
                 //Set currentUser
                 setCurrentUser();

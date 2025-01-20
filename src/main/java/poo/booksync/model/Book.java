@@ -77,6 +77,8 @@ public class Book {
                 title, author, publishedYear, isbn
         );
 
+        System.out.println(jsonBody);
+
         try {
             //Création du client et de la requête POST
             HttpClient client = HttpClient.newBuilder().build();

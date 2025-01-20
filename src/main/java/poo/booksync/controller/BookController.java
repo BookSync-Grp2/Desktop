@@ -17,7 +17,6 @@ public class BookController {
     @FXML private TextField isbnField;
     @FXML private TextField authorField;
     @FXML private DatePicker publishDatePicker;
-    @FXML private Button saveButton;
 
     @FXML
     public void initialize() {
@@ -47,5 +46,22 @@ public class BookController {
         );
 
         this.tableView.setItems(books);
+    }
+
+    public void handleCreateBook(){
+        Book.createBook(
+                titleField.getText(),
+                authorField.getText(),
+                isbnField.getText(),
+                publishDatePicker.getValue().getYear()
+        );
+        clearField();
+    }
+
+    public void clearField(){
+        titleField.clear();
+        authorField.clear();
+        isbnField.clear();
+        publishDatePicker.setValue(null);
     }
 }
