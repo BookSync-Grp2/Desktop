@@ -96,22 +96,60 @@ public class Loans {
     }
 
     //Indique que le livre a été retiré par l’emprunteur (après la création du prêt)
-    public void bookRetrieved() {
-        //this.isRetrieved = true;
-        //A IMPLEMENTER
+    public static void bookRetrieved(int id) {
+        String url = "http://localhost:8080/api/loans/"+id+"/retrieve";
+        try {
+            // Création du client et de la requête POST
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + User.getAuthToken())
+                    .PUT(HttpRequest.BodyPublishers.ofString(""))
+                    .build();
 
-        //Rechargement de la liste
-        Loans.initializeLoanList();
+            // Envoi de la requête et récupération de la réponse
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                //Refresh de la liste
+                Loans.initializeLoanList();
+            } else {
+                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
+                System.err.println("Corps de la réponse : " + response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
     //Indique que le livre a été rendu par l’emprunteur
-    public void bookReturned() {
-        //this.isReturned = true;
-        //A IMPLEMENTER
+    public static void bookReturned(int id) {
+        String url = "http://localhost:8080/api/loans/"+id+"/return";
+        try {
+            // Création du client et de la requête POST
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + User.getAuthToken())
+                    .PUT(HttpRequest.BodyPublishers.ofString(""))
+                    .build();
 
-        //Rechargement de la liste
-        Loans.initializeLoanList();
+            // Envoi de la requête et récupération de la réponse
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                //Refresh de la liste
+                Loans.initializeLoanList();
+            } else {
+                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
+                System.err.println("Corps de la réponse : " + response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
