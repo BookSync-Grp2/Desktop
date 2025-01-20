@@ -82,7 +82,7 @@ public class Loans {
         return true;
     }
 
-    /* ---------------- GETTERS / SETTERS --------------- */
+    //GETTERS / SETTERS
 
     public static ArrayList<Loans> getLoanList() {
         return loansList;

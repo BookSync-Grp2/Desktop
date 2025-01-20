@@ -45,7 +45,7 @@ public class Librarian extends User {
         try {
             HttpClient client = HttpClient.newBuilder().build();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/user"))
+                    .uri(URI.create("http://localhost:8080/api/user/all"))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + getAuthToken())
                     .GET()

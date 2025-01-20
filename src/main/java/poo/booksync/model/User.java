@@ -210,6 +210,9 @@ public abstract class User {
                 //Initialisation de la liste d'USER :
                 Librarian.initializeUserList();
 
+                //Liste de books
+                Book.initializeBookList();
+
                 //Set currentUser
                 setCurrentUser();
 
