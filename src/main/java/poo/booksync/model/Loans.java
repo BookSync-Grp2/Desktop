@@ -1,5 +1,15 @@
 package poo.booksync.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -36,10 +46,41 @@ public class Loans {
     }
 
     public static int createLoan(int idBook, int idUser) {
-        //A IMPLEMENTER
 
-        //Rechargement de la liste
-        Loans.initializeLoanList();
+        // Construction du JSON à envoyer
+        String jsonBody = String.format(
+                "{" +
+                        "\"userId\": %d," +
+                        "\"bookId\": %d" +
+                        "}",
+                idUser,
+                idBook
+        );
+
+        try {
+            // Création du client et de la requête POST
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/loans/create"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + User.getAuthToken())
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            // Envoi de la requête et récupération de la réponse
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                //Refresh de la liste
+                Loans.initializeLoanList();
+                return 1;
+            } else {
+                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
+                System.err.println("Corps de la réponse : " + response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
@@ -73,12 +114,78 @@ public class Loans {
         Loans.initializeLoanList();
     }
 
-    /**
-     * initializeLoanList() : boolean
-     * Ex. on charge quelques prêts en dur
-     */
+
     public static boolean initializeLoanList() {
-        //A IMPLEMENTER AVC le sevreur
+        // Clear de la list
+        loansList.clear();
+
+        try {
+            // 2) Création du client et de la requête GET
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/api/loans/all"))
+                    .header("Content-Type", "application/json")
+                    // Si besoin, ajoutez le token si nécessaire
+                    .header("Authorization", "Bearer " + User.getAuthToken())
+                    .GET()
+                    .build();
+
+            // Envoi de la requête et récupération de la réponse
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+
+                // On récupère le JSON sous forme d'arbre
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode rootArray = mapper.readTree(response.body());
+
+                // On parcourt le tableau
+                if (rootArray.isArray()) {
+                    for (JsonNode loanNode : rootArray) {
+                        // Extraction des champs
+                        int id            = loanNode.get("id").asInt();
+                        int userId        = loanNode.get("userId").asInt();
+                        int bookId        = loanNode.get("bookId").asInt();
+                        boolean retrieved = loanNode.get("retrieved").asBoolean();
+                        boolean returned  = loanNode.get("returned").asBoolean();
+
+                        String startDateStr = loanNode.get("loanStartDate").asText();
+                        String endDateStr   = loanNode.get("loanEndDate").asText();
+
+                        Date startDate = null;
+                        Date endDate   = null;
+
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                            startDate = sdf.parse(startDateStr);
+                            endDate   = sdf.parse(endDateStr);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        // Instanciation du prêt (Loans)
+                        Loans loan = new Loans(
+                                id,
+                                userId,
+                                bookId,
+                                startDate,
+                                endDate,
+                                retrieved,
+                                returned
+                        );
+
+                        // Ajout à la liste statique
+                        loansList.add(loan);
+                    }
+                }
+            } else {
+                System.err.println("Erreur API : " + response.statusCode()
+                        + " - " + response.body());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
+        }
+
         return true;
     }
 

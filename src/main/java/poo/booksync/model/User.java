@@ -213,8 +213,13 @@ public abstract class User {
                 //Liste de books
                 Book.initializeBookList();
 
+                //Liste de Loans
+                Loans.initializeLoanList();
+
                 //Set currentUser
                 setCurrentUser();
+
+
 
                 return true;  // Connexion OK
             } else {
