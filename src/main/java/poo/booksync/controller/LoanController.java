@@ -10,13 +10,15 @@ import poo.booksync.model.Loans;
 
 import java.util.Date;
 
-public class LoansController {
+public class LoanController {
     @FXML
     private TableView<Loans> tableView;
 
     @FXML
     public void initialize() {
-        this.initLoanTable();
+        if(tableView != null) {
+            this.initLoanTable();
+        }
     }
 
     public void initLoanTable() {

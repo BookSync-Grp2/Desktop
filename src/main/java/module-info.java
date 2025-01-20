@@ -1,8 +1,10 @@
 module poo.booksync.booksync {
+    // Modules nécessaires pour JavaFX
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
 
+    // Dépendances tierces
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
@@ -13,12 +15,10 @@ module poo.booksync.booksync {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
 
-    // Opens packages to JavaFX reflection
     opens poo.booksync to javafx.fxml;
-    opens poo.booksync.model to javafx.base; // Add this line
+    opens poo.booksync.model to javafx.base;
     opens poo.booksync.controller to javafx.fxml;
 
-    // Exports packages
     exports poo.booksync;
     exports poo.booksync.controller;
 }

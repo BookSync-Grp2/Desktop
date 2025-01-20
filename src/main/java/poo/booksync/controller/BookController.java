@@ -1,22 +1,29 @@
 package poo.booksync.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import poo.booksync.model.Book;
 
 import java.util.Date;
 
-public class HomeController {
+public class BookController {
     @FXML
     private TableView<Book> tableView;
 
+    @FXML private TextField titleField;
+    @FXML private TextField isbnField;
+    @FXML private TextField authorField;
+    @FXML private DatePicker publishDatePicker;
+    @FXML private Button saveButton;
+
     @FXML
     public void initialize() {
-        this.initBookTable();
+        if (tableView != null) {
+            initBookTable();
+        }
     }
 
     public void  initBookTable(){
@@ -35,8 +42,8 @@ public class HomeController {
         tableView.getColumns().addAll(idColumn, titleColumn, authorColumn, publishedYearColumn);
 
         ObservableList<Book> books = FXCollections.observableArrayList(
-                new Book(1, "The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565", new Date(-1420070400000L), false),
-                new Book(2, "To Kill a Mockingbird", "Harper Lee", "978-0446310789", new Date(-1420070400000L), false)
+                new Book(1, "The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565", 1925, true),
+                new Book(2, "To Kill a Mockingbird", "Harper Lee", "978-0446310789", 1945, false)
         );
 
         this.tableView.setItems(books);
