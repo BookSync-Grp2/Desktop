@@ -11,6 +11,7 @@ module poo.booksync.booksync {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.net.http;
+    requires com.fasterxml.jackson.databind;
 
     opens poo.booksync to javafx.fxml;
     exports poo.booksync;
