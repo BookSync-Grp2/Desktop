@@ -120,6 +120,52 @@ public class Book {
     }
 
 
+    public static int deleteBook(int id){
+        String url = "http://localhost:8080/api/books/"+id;
+        try {
+            //Création du client et de la requête POST
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + User.getAuthToken()) // si nécessaire
+                    .DELETE()
+                    .build();
+
+            //Envoi de la requête et récupération de la réponse
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200 || response.statusCode() == 201) {
+                // Le livre est supprimée avec succès
+                System.out.println("Livre supprimé avec succès : " + response.body());
+
+                // Recharger la liste des livres
+                Book.initializeBookList();
+
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    JsonNode node = mapper.readTree(response.body());
+                    if (node.has("id")) {
+                        return node.get("id").asInt(); // nouvel ID
+                    }
+                } catch (Exception e) {
+                }
+                return 1;
+            } else {
+                // En cas d'erreur
+                System.err.println("Échec de la suppression du livre. Code HTTP = " + response.statusCode());
+                System.err.println("Corps de la réponse : " + response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        return 0;
+    }
+
+
     public static void initializeBookList() {
         bookList.clear();
         try {
