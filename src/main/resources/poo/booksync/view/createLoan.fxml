@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -18,15 +15,7 @@
                 <Label text="Book ID" />
                 <TextField fx:id="bookIdField" promptText="Entrez l'ID du livre" />
             </VBox>
-            <VBox spacing="2">
-                <Label text="Date de début" />
-                <DatePicker fx:id="startDatePicker" promptText="Sélectionner la date" />
-            </VBox>
-            <VBox spacing="2">
-                <Label text="Date de fin" />
-                <DatePicker fx:id="endDatePicker" promptText="Sélectionner la date" />
-            </VBox>
-            <Button maxWidth="Infinity" onAction="#handleCreateLoan" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
+            <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
         </VBox>
     </VBox>
 </VBox>

@@ -43,7 +43,7 @@ public class Librarian extends User {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+            System.out.println(response.body());
             if (response.statusCode() == 200) {
                 // On récupère le JSON sous forme d'arbre
                 ObjectMapper mapper = new ObjectMapper();

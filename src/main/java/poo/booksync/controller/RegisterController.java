@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import poo.booksync.MainApplication;
-import poo.booksync.model.RoleType;
 import poo.booksync.model.User;
+import poo.booksync.model.dto.UserRegistrationDto;
 import poo.booksync.validators.EmailValidator;
 import poo.booksync.validators.FieldValidator;
 import poo.booksync.validators.PasswordValidator;
@@ -43,20 +43,22 @@ public class RegisterController {
                     newValue
             );
         });
-
     }
 
     @FXML
-    private void handleRegister() {
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String email = this.emailField.getText();
-        String password = this.passwordField.getText();
-        User.register(firstName,lastName,email,password, RoleType.ADMIN);
+    private void handleRegister() throws IOException, InterruptedException {
+        User.register(
+                new UserRegistrationDto(
+                    firstNameField.getText(),
+                    lastNameField.getText(),
+                    emailField.getText(),
+                    passwordField.getText()
+                )
+        );
     }
 
     @FXML
     private void redirectToLogin(ActionEvent event) throws IOException {
-        MainApplication.redirectTo("login",event);
+        MainApplication.redirectTo("login", event);
     }
 }

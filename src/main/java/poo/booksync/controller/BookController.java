@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import poo.booksync.model.Book;
+import poo.booksync.model.dto.CreateBookDto;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class BookController {
@@ -19,13 +21,14 @@ public class BookController {
     @FXML private DatePicker publishDatePicker;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException, InterruptedException {
         if (tableView != null) {
             initBookTable();
         }
     }
 
-    public void  initBookTable(){
+    public void  initBookTable() throws IOException, InterruptedException {
+        Book.initializeBookList();
         tableView.getColumns().clear();
 
         TableColumn<Book, Integer> idColumn = new TableColumn<>("ID");
@@ -40,22 +43,29 @@ public class BookController {
 
         tableView.getColumns().addAll(idColumn, titleColumn, authorColumn, publishedYearColumn);
 
-        ObservableList<Book> books = FXCollections.observableArrayList(
-                new Book(1, "The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565", 1925, true),
-                new Book(2, "To Kill a Mockingbird", "Harper Lee", "978-0446310789", 1945, false)
-        );
+        ObservableList<Book> books = FXCollections.observableArrayList(Book.getBookList());
 
         this.tableView.setItems(books);
     }
 
-    public void handleCreateBook(){
+    public void handleCreateBook() throws IOException, InterruptedException {
+        // Créer un livre
         Book.createBook(
-                titleField.getText(),
-                authorField.getText(),
-                isbnField.getText(),
-                publishDatePicker.getValue().getYear()
+                new CreateBookDto(
+                        titleField.getText(),
+                        authorField.getText(),
+                        isbnField.getText(),
+                        publishDatePicker.getValue().getYear()
+                )
         );
+
+        // Effacer les champs
         clearField();
+
+        Book.initializeBookList();  // Assurez-vous que les livres sont mis à jour
+        ObservableList<Book> books = FXCollections.observableArrayList(Book.getBookList());
+        tableView.setItems(books);  // Mettre à jour les données de la TableView
+        tableView.refresh();  // Forcer la table à se rafraîchir pour afficher les nouveaux livres
     }
 
     public void clearField(){
@@ -64,4 +74,5 @@ public class BookController {
         isbnField.clear();
         publishDatePicker.setValue(null);
     }
+
 }

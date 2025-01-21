@@ -14,6 +14,7 @@ module poo.booksync.booksync {
     requires com.almasb.fxgl.all;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
+    requires jdk.compiler;
 
     opens poo.booksync to javafx.fxml;
     opens poo.booksync.model to javafx.base;
@@ -21,4 +22,6 @@ module poo.booksync.booksync {
 
     exports poo.booksync;
     exports poo.booksync.controller;
+    exports poo.booksync.model.dto;
+    opens poo.booksync.model.dto to javafx.base;
 }

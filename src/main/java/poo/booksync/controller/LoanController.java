@@ -61,27 +61,4 @@ public class LoanController {
 
         this.tableView.setItems(loans);
     }
-
-    @FXML
-    public void handleCreateLoan() {
-        // Validation des champs
-        if (userIdField.getText().isEmpty() || bookIdField.getText().isEmpty()) {
-            return;
-        }
-
-        try {
-            int userId = Integer.parseInt(userIdField.getText());
-            int bookId = Integer.parseInt(bookIdField.getText());
-
-            int newLoanId = Loan.createLoan(bookId, userId);
-
-            loans.add(new Loan(newLoanId, userId, bookId, new Date(), null, false, false));
-
-            userIdField.clear();
-            bookIdField.clear();
-
-        }catch (NumberFormatException _){
-
-        }
-    }
 }
