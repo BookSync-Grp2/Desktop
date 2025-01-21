@@ -7,15 +7,18 @@
     <VBox alignment="CENTER" maxWidth="300" VBox.vgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" prefWidth="518.0" spacing="20" style="-fx-background-color: white; -fx-padding: 30; -fx-background-radius: 5;">
             <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Créer un prêt" />
+            <!-- Sélection d'un utilisateur -->
             <VBox spacing="2">
-                <Label text="User ID" />
-                <TextField fx:id="userIdField" promptText="Entrez l'ID utilisateur" />
+                <Label text="Sélectionner un utilisateur" />
+                <ComboBox fx:id="userComboBox" promptText="Choisissez un utilisateur" />
             </VBox>
+            <!-- Sélection d'un livre -->
             <VBox spacing="2">
-                <Label text="Book ID" />
-                <TextField fx:id="bookIdField" promptText="Entrez l'ID du livre" />
+                <Label text="Sélectionner un livre" />
+                <ComboBox fx:id="bookComboBox" promptText="Choisissez un livre" />
             </VBox>
-            <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" />
+            <!-- Bouton Enregistrer -->
+            <Button maxWidth="Infinity" style="-fx-background-color: #2196f3; -fx-text-fill: white;" text="Enregistrer" onAction="#handleSaveLoan" />
         </VBox>
     </VBox>
 </VBox>

@@ -27,6 +27,8 @@ public class Request {
 
         HttpRequest request = requestBuilder.build();
 
+        System.out.println(request.method() + " " + request.uri()+ " " + request.headers()+" "+body);
+
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {

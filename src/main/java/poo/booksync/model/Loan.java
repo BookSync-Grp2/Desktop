@@ -2,6 +2,8 @@ package poo.booksync.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import poo.booksync.model.dto.CreateLoanDto;
+import poo.booksync.utils.Request;
 
 import java.io.IOException;
 import java.net.URI;
@@ -45,43 +47,9 @@ public class Loan {
         this.isReturned = isReturned;
     }
 
-    public static int createLoan(int idBook, int idUser) {
-
-        // Construction du JSON à envoyer
-        String jsonBody = String.format(
-                "{" +
-                        "\"userId\": %d," +
-                        "\"bookId\": %d" +
-                        "}",
-                idUser,
-                idBook
-        );
-        System.out.println(jsonBody);
-        try {
-            // Création du client et de la requête POST
-            HttpClient client = HttpClient.newBuilder().build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/loans/create"))
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + User.getAuthToken())
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
-                    .build();
-
-            // Envoi de la requête et récupération de la réponse
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                //Refresh de la liste
-                Loan.initializeLoanList();
-                return 1;
-            } else {
-                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
-                System.err.println("Corps de la réponse : " + response.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    public static void createLoan(CreateLoanDto createLoanDto) throws IOException, InterruptedException {
+        Request.sendPostRequest("https://booksync-back.onrender.com/api/loans/create",createLoanDto.toJson(),true);
+        Loan.initializeLoanList();
     }
 
     //Emprunt pr un USER

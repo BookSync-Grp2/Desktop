@@ -75,7 +75,7 @@ public abstract class User {
         TokenExtractor.extractToken(responseBody);
     }
 
-    public static boolean initializeUserList() throws IOException, InterruptedException {
+    public static void initializeUserList() throws IOException, InterruptedException {
         clearUserList();
         String responseBody = Request.sendGetRequest("https://booksync-back.onrender.com/api/user/all",true);
         ObjectMapper mapper = new ObjectMapper();
@@ -127,10 +127,9 @@ public abstract class User {
                 }
 
                 // Ajout à la liste statique
-                User.getUserList().add(user);
+                userList.add(user);
             }
         }
-        return true;
     }
 
 
