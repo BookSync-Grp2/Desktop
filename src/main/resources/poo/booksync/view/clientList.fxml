@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.ClientController">
+<VBox prefHeight="200.0" prefWidth="100.0" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poo.booksync.controller.TableClientController">
     <TableView fx:id="tableView">
         <columns>
             <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="User ID" />

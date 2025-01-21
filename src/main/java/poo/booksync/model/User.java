@@ -18,7 +18,7 @@ import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class User {
+public abstract class User {
 
     private static ArrayList<User> userList = new ArrayList<User>();
     private static User currentUser = null;
@@ -73,6 +73,64 @@ public class User {
     public static void login(LoginDto loginDto) throws IOException, InterruptedException {
         String responseBody = Request.sendPostRequest("https://booksync-back.onrender.com/auth/login",loginDto.toJson());
         TokenExtractor.extractToken(responseBody);
+    }
+
+    public static boolean initializeUserList() throws IOException, InterruptedException {
+        clearUserList();
+        String responseBody = Request.sendGetRequest("https://booksync-back.onrender.com/api/user/all",true);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootArray = mapper.readTree(responseBody);
+        if (rootArray.isArray()) {
+            for (JsonNode userNode : rootArray) {
+                // Extraction des champs
+                int userId = userNode.get("id").asInt();
+                String firstName = userNode.get("firstName").asText();
+                String lastName = userNode.get("lastName").asText();
+                String email = userNode.get("email").asText();
+                String roleString = userNode.get("role").asText();
+                boolean validated = userNode.get("validated").asBoolean();
+
+                // DateJoined : on peut parser en java.util.Date
+                // Ici on suppose un format "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ou similaire
+                String dateJoinedStr = userNode.get("dateJoined").asText();
+                Date dateJoined = null;
+
+                try {
+
+                    // À adapter selon le format exact renvoyé par votre API
+                    dateJoined = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").parse(dateJoinedStr);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Conversion de roleString en RoleType (si vous avez un enum)
+                RoleType roleType;
+                try {
+                    roleType = RoleType.valueOf(roleString);
+                } catch (IllegalArgumentException e) {
+
+                    // Si le role n'est pas dans l'enum, on met par défaut
+                    roleType = RoleType.USER;
+                }
+
+                // Instanciation en fonction du champ role
+                User user;
+                if ("USER".equalsIgnoreCase(roleString)) {
+
+                    // Instancier un "Client" (sous-classe de User)
+                    user = new Client(userId, firstName, lastName, email, dateJoined, validated, roleType);
+                } else {
+
+                    // Instancier un "Librarian" (sous-classe de User)
+                    user = new Librarian(userId, firstName, lastName, email, dateJoined, validated, roleType);
+                }
+
+                // Ajout à la liste statique
+                User.getUserList().add(user);
+            }
+        }
+        return true;
     }
 
 
@@ -162,19 +220,6 @@ public class User {
         currentUser = null;
     }
 
-
-    //Extraction du champ token dans la JSON de réponse à un register / un login
-    public static String extraireToken(String json) {
-
-        // On cherche la chaine "token" pr la parser
-        String cle = "\"token\":\"";
-        int startIndex = json.indexOf(cle);
-        if (startIndex == -1) return "";
-        startIndex += cle.length();
-        int endIndex = json.indexOf("\"", startIndex);
-        if (endIndex == -1) return "";
-        return json.substring(startIndex, endIndex);
-    }
 
     //Lougout du currentUser
     public static boolean logout(){

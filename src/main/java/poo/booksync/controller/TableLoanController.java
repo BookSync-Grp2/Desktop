@@ -1,27 +1,18 @@
 package poo.booksync.controller;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import poo.booksync.model.Loan;
 
 import java.util.Date;
 
-public class LoanController {
+public class TableLoanController {
     @FXML
     private TableView<Loan> tableView;
-
-    @FXML
-    private TextField userIdField; // Champ pour saisir l'ID de l'utilisateur
-    @FXML
-    private TextField bookIdField; // Champ pour saisir l'ID du livre
-
-    private ObservableList<Loan> loans = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -53,11 +44,7 @@ public class LoanController {
                 loanIdColumn, userIdColumn, bookIdColumn, startLoanDate, endLoanDate, retrievedColumn, returnedColumn
         );
 
-        // Exemple de données pour les tests
-        loans.addAll(
-                new Loan(1, 101, 201, new Date(), new Date(), false, false),
-                new Loan(2, 102, 202, new Date(), new Date(), true, false)
-        );
+        ObservableList<Loan> loans = FXCollections.observableArrayList(Loan.getLoanList());
 
         this.tableView.setItems(loans);
     }

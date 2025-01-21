@@ -15,6 +15,7 @@ module poo.booksync.booksync {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires jdk.compiler;
+    requires java.desktop;
 
     opens poo.booksync to javafx.fxml;
     opens poo.booksync.model to javafx.base;
