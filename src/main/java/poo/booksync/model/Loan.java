@@ -64,135 +64,63 @@ public class Loan {
     }
 
     //Indique que le livre a été retiré par l’emprunteur (après la création du prêt)
-    public static void bookRetrieved(int id) {
-        String url = "http://localhost:8080/api/loans/"+id+"/retrieve";
-        try {
-            // Création du client et de la requête POST
-            HttpClient client = HttpClient.newBuilder().build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + User.getAuthToken())
-                    .PUT(HttpRequest.BodyPublishers.ofString(""))
-                    .build();
+    public static void bookRetrieved(int id) throws IOException, InterruptedException {
+        Request.sendPutRequest("https://booksync-back.onrender.com/api/loans/"+id+"/retrieve",null,true);
+        Loan.initializeLoanList();
+    }
 
-            // Envoi de la requête et récupération de la réponse
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                //Refresh de la liste
-                Loan.initializeLoanList();
-            } else {
-                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
-                System.err.println("Corps de la réponse : " + response.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    //Indique que le livre a été retiré par l’emprunteur (après la création du prêt)
+    public static void bookReturned(int id) throws IOException, InterruptedException {
+        Request.sendPutRequest("https://booksync-back.onrender.com/api/loans/"+id+"/return",null,true);
+        Loan.initializeLoanList();
     }
 
 
-    //Indique que le livre a été rendu par l’emprunteur
-    public static void bookReturned(int id) {
-        String url = "http://localhost:8080/api/loans/"+id+"/return";
-        try {
-            // Création du client et de la requête POST
-            HttpClient client = HttpClient.newBuilder().build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + User.getAuthToken())
-                    .PUT(HttpRequest.BodyPublishers.ofString(""))
-                    .build();
-
-            // Envoi de la requête et récupération de la réponse
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                //Refresh de la liste
-                Loan.initializeLoanList();
-            } else {
-                System.err.println("Échec de la création du prêt. Code HTTP = " + response.statusCode());
-                System.err.println("Corps de la réponse : " + response.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static boolean initializeLoanList() {
+    public static void initializeLoanList() throws IOException, InterruptedException {
         // Clear de la list
         loansList.clear();
 
-        try {
-            // 2) Création du client et de la requête GET
-            HttpClient client = HttpClient.newBuilder().build();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/api/loans/all"))
-                    .header("Content-Type", "application/json")
-                    // Si besoin, ajoutez le token si nécessaire
-                    .header("Authorization", "Bearer " + User.getAuthToken())
-                    .GET()
-                    .build();
+        String responseBody = Request.sendGetRequest("https://booksync-back.onrender.com/api/loans/all",true);
+        // On récupère le JSON sous forme d'arbre
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootArray = mapper.readTree(responseBody);
+        // On parcourt le tableau
+        if (rootArray.isArray()) {
+            for (JsonNode loanNode : rootArray) {
+                // Extraction des champs
+                int id = loanNode.get("id").asInt();
+                int userId = loanNode.get("userId").asInt();
+                int bookId = loanNode.get("bookId").asInt();
+                boolean retrieved = loanNode.get("retrieved").asBoolean();
+                boolean returned = loanNode.get("returned").asBoolean();
+                String startDateStr = loanNode.get("loanStartDate").asText();
+                String endDateStr = loanNode.get("loanEndDate").asText();
 
-            // Envoi de la requête et récupération de la réponse
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
+                Date startDate = null;
+                Date endDate = null;
 
-                // On récupère le JSON sous forme d'arbre
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode rootArray = mapper.readTree(response.body());
-
-                // On parcourt le tableau
-                if (rootArray.isArray()) {
-                    for (JsonNode loanNode : rootArray) {
-                        // Extraction des champs
-                        int id            = loanNode.get("id").asInt();
-                        int userId        = loanNode.get("userId").asInt();
-                        int bookId        = loanNode.get("bookId").asInt();
-                        boolean retrieved = loanNode.get("retrieved").asBoolean();
-                        boolean returned  = loanNode.get("returned").asBoolean();
-
-                        String startDateStr = loanNode.get("loanStartDate").asText();
-                        String endDateStr   = loanNode.get("loanEndDate").asText();
-
-                        Date startDate = null;
-                        Date endDate   = null;
-
-                        try {
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-                            startDate = sdf.parse(startDateStr);
-                            endDate   = sdf.parse(endDateStr);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-                        // Instanciation du prêt (Loans)
-                        Loan loan = new Loan(
-                                id,
-                                userId,
-                                bookId,
-                                startDate,
-                                endDate,
-                                retrieved,
-                                returned
-                        );
-
-                        // Ajout à la liste statique
-                        loansList.add(loan);
-                    }
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+                    startDate = sdf.parse(startDateStr);
+                    endDate = sdf.parse(endDateStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-            } else {
-                System.err.println("Erreur API : " + response.statusCode()
-                        + " - " + response.body());
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return false;
-        }
+                // Instanciation du prêt (Loans)
+                Loan loan = new Loan(
+                        id,
+                        userId,
+                        bookId,
+                        startDate,
+                        endDate,
+                        retrieved,
+                        returned
+                );
 
-        return true;
+                // Ajout à la liste statique
+                loansList.add(loan);
+            }
+        }
     }
 
     //GETTERS / SETTERS

@@ -1,5 +1,7 @@
 package poo.booksync.controller;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -9,8 +11,6 @@ import poo.booksync.model.dto.UserRegistrationDto;
 import poo.booksync.validators.EmailValidator;
 import poo.booksync.validators.FieldValidator;
 import poo.booksync.validators.PasswordValidator;
-
-import java.io.IOException;
 
 public class RegisterController {
 
@@ -27,8 +27,9 @@ public class RegisterController {
     private TextField passwordField;
 
     @FXML
+    @SuppressWarnings("unused")
     private void initialize() {
-        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+        emailField.textProperty().addListener((_, _, newValue) -> {
             FieldValidator.validate(
                     emailField,
                     new EmailValidator(),

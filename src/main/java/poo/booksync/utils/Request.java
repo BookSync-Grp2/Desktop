@@ -23,6 +23,8 @@ public class Request {
             requestBuilder.POST(HttpRequest.BodyPublishers.ofString(body));
         } else if ("GET".equalsIgnoreCase(method)) {
             requestBuilder.GET();
+        }else if ("PUT".equalsIgnoreCase(method)) {
+            requestBuilder.PUT(HttpRequest.BodyPublishers.ofString(""));
         }
 
         HttpRequest request = requestBuilder.build();
@@ -52,5 +54,9 @@ public class Request {
 
     public static String sendGetRequest(String url, Boolean withToken) throws IOException, InterruptedException {
         return sendRequest(url, null, withToken, "GET");
+    }
+
+    public static String sendPutRequest(String url, String body, Boolean withToken) throws IOException, InterruptedException {
+        return sendRequest(url, body, withToken, "PUT");
     }
 }

@@ -18,9 +18,7 @@ public class TableBookController {
 
     @FXML
     public void initialize() throws IOException, InterruptedException {
-        if (tableView != null) {
-            initBookTable();
-        }
+        initBookTable();
     }
 
     public void  initBookTable() throws IOException, InterruptedException {

@@ -14,6 +14,7 @@
             <TableColumn prefWidth="100.0" text="End Date" />
             <TableColumn prefWidth="75.0" text="Retrieved" />
             <TableColumn prefWidth="75.0" text="Returned" />
+            <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Returned" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

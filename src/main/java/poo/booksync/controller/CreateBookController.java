@@ -1,13 +1,14 @@
 package poo.booksync.controller;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import poo.booksync.MainApplication;
 import poo.booksync.model.Book;
 import poo.booksync.model.dto.CreateBookDto;
-
-import java.io.IOException;
 
 public class CreateBookController {
 
@@ -29,6 +30,7 @@ public class CreateBookController {
         );
 
         clearField();
+        
         MainApplication.redirectTo("main",event);
     }
 

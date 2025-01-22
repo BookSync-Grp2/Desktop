@@ -25,8 +25,13 @@ public class CreateLoanController {
     public void initialize() throws IOException, InterruptedException {
         loadUsers();
         loadBooks();
+        initUserComboBox();
+        initBookCombobox();
+    }
 
-        userComboBox.setCellFactory(new Callback<>() {
+
+    private  void initUserComboBox(){
+        this.userComboBox.setCellFactory(new Callback<>() {
             @Override
             public ListCell<User> call(ListView<User> param) {
                 return new ListCell<>() {
@@ -55,7 +60,9 @@ public class CreateLoanController {
                 }
             }
         });
+    }
 
+    private void initBookCombobox(){
         bookComboBox.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Book> call(ListView<Book> param) {
