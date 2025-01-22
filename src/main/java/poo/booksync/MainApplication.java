@@ -1,5 +1,8 @@
 package poo.booksync;
 
+import java.io.IOException;
+import java.util.Objects;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,9 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class MainApplication extends Application {
 
